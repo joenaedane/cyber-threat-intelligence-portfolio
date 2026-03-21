@@ -2,7 +2,7 @@
 
 ## About Me
 
-I am a Software Engineer transitioning into Cyber Threat Intelligence and Blue Team Operations.
+I am a Software Engineer transitioning into Cyber Threat Intelligence.
 
 This portfolio documents my hands-on research, threat analysis case studies, detection engineering notes, and threat hunting playbooks developed through self-driven labs and real-world cyber threat monitoring.
 
