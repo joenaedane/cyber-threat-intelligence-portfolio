@@ -2,9 +2,11 @@
 
 ## Lab Objective
 
-Simulate a realistic enterprise identity attack chain starting from a compromised low-privilege domain user and escalating privileges via Kerberos delegation abuse.
+Analyse and prioritise Active Directory privilege escalation paths from the perspective of an attacker operating with compromised low-privilege domain credentials.
 
-The lab demonstrates how attackers enumerate Active Directory trust relationships, identify delegation paths, and impersonate privileged users to pivot deeper into the network.
+The lab focuses on identity attack graph modelling, Kerberos delegation abuse, and practical validation of escalation feasibility. Instead of demonstrating a single exploitation technique, the objective is to understand how multiple trust relationships in Active Directory can form realistic attack paths that enable lateral movement and privilege escalation.
+
+This exercise mirrors real-world intrusion behaviour where attackers enumerate identity relationships, score potential escalation routes, and weaponise the most reliable path toward domain dominance.
 
 ---
 
@@ -17,7 +19,6 @@ VirtualBox Host-Only Network (192.168.56.0/24)
 
 DC01   → 192.168.56.10  (Domain Controller / KDC / LDAP)
 WS01   → 192.168.56.11  (User Workstation)
-WEB01  → 192.168.56.20  (Delegated Server Pivot)
 KALI   → 192.168.56.30  (Attacker Machine)
 ```
 
@@ -119,91 +120,125 @@ Import data into BloodHound and identify shortest path to Domain Admin.
 
 ### Screenshot Evidence
 
-* Using Kali to push SharpHound into WS01 
+* ![alt text](./assets/identity-attack/image-8.png)
 
-* Node relationship showing GenericWrite / delegation
+* ![alt text](./assets/identity-attack/image-9.png)
 
-### Key Learning
+* ![alt text](./assets/identity-attack/image-10.png)
 
-Enterprise identity is a graph of trust relationships exploitable by attackers.
-
----
-
-## Phase 4: Delegation Abuse (RBCD)
-
-### Attack Steps
-
-* Create attacker-controlled machine account
-* Modify delegation attribute on target server
-* Request service ticket impersonating privileged user
-
-### Example Commands
-
-```
-addcomputer.py corp.local/john:Password123 -computer-name FAKE01$
-rbcd.py -delegate-from FAKE01$ -delegate-to WEB01$
-Rubeus.exe s4u /user:FAKE01$ /impersonateuser:Administrator
-```
-
-### Screenshot Evidence
-
-* Machine account creation success
-* Delegation attribute modification
-* Kerberos ticket cache showing impersonated ticket
+* ![alt text](./assets/identity-attack/image-11.png)
 
 ### Key Learning
 
-Delegation misconfigurations allow privilege escalation without password cracking.
+- Enterprise identity is a graph of trust relationships exploitable by attackers.
+- Session-based escalation paths require timing validation as attack graph relationships may not represent current exploit conditions.
+
+- Initial enumeration revealed no deterministic privilege escalation paths from compromised user context. Escalation would require opportunistic session abuse, social engineering, credential harvesting, or configuration change exploitation.
+
+## Engineered Privilege Misconfiguration
+
+To simulate realistic enterprise misconfiguration, the compromised user account was granted **local administrative privileges** on workstation WS01.
+
+Validation on host confirmed:
+* ![alt text](./assets/identity-attack/image-12.png)
+
+
+This introduced a deterministic escalation surface enabling:
+
+- Administrative token acquisition
+- Credential material access (LSASS memory)
+- Persistence staging
+- Lateral movement preparation
 
 ---
 
-## Phase 5: Privilege Pivot
+### Attack Graph Visibility Gap
 
-### Verification
+Despite confirmed host-level privilege exposure, BloodHound graph ingestion did not display a corresponding `AdminTo` edge.
 
-```
-dir \\WEB01\c$
-```
+* ![alt text](./assets/identity-attack/image-13.png)
 
-### Expected Result
+This highlights a critical operational insight:
 
-Administrative share accessible due to impersonated identity.
+> Attack graph accuracy depends on telemetry completeness and collection success.
 
-### Detection Opportunity
+Potential causes include:
 
-* Event ID 4741 (Machine account creation)
-* Event ID 5136 (Directory object modification)
-* Event ID 4769 (Service ticket requests spike)
+- RPC/WMI collection failure
+- Firewall restrictions
+- UAC remote filtering
+- Timing of enumeration
+- Graph ingestion limitations
 
----
-
-## Phase 6: Domain Dominance (Conceptual)
-
-Attacker could proceed to:
-
-* Dump LSASS
-* Perform DCSync
-* Extract KRBTGT hash
-* Forge Golden Ticket
-
-### Key Learning
-
-Identity trust abuse enables domain-wide persistence.
+Therefore, **manual validation of privilege relationships is required** during attack path analysis.
 
 ---
 
-## Lessons Learned
+### Attack Path Classification
 
-* Initial access does not equal domain compromise
-* Delegated services form critical trust pivot points
-* Active Directory attack paths can be graph-modelled
-* Behaviour-based detection is required for Kerberos abuse
+| Path Type | Description | Reliability | Persistence | Impact |
+|----------|------------|------------|------------|--------|
+Session Abuse | Privileged session presence | Low | Transient | High |
+Local Admin Exposure | Administrative control over WS01 | High | Persistent | Medium |
 
 ---
 
-## Future Improvements
+### Attacker Decision Rationale
 
-* Introduce VLAN segmentation
-* Simulate EDR telemetry
-* Implement Sigma detection rules
-* Add multi-domain trust scenario
+An attacker would prioritise **persistent administrative foothold** over transient escalation opportunities.
+
+Local administrative access enables:
+
+- Credential harvesting
+- Privilege discovery
+- Token impersonation
+- Subsequent lateral movement toward domain controllers
+
+This staged escalation model reflects realistic adversary tradecraft.
+
+---
+
+## Detection Opportunities
+
+### Local Privilege Manipulation
+
+- Event ID 4732 – Member added to local Administrators group
+- Event ID 4672 – Special privileges assigned to new logon
+- Endpoint telemetry detecting privilege escalation patterns
+
+### Credential Access Behaviour
+
+- LSASS memory access detection
+- Suspicious administrative token usage
+- Abnormal SMB administrative share access
+
+### Identity Attack Surface Monitoring
+
+- Continuous privilege graph modelling
+- Session presence monitoring on tier-0 assets
+- Delegation and ACL exposure auditing
+
+---
+## Defensive Blind Spot Analysis
+
+Attack path tooling may fail to represent real exploit conditions due to incomplete data collection.
+
+Security teams must:
+
+- Correlate host telemetry with identity graph analytics
+- Validate privilege relationships operationally
+- Avoid over-reliance on automated attack path visualisation
+
+This lab demonstrates the importance of **human analytical reasoning in threat detection workflows.**
+
+---
+
+## Key Lessons Learned
+
+- Privilege escalation opportunities may be conditional or persistent.
+- Attack graph relationships require real-world validation.
+- Administrative control over workstations enables staged domain compromise.
+- Absence of Kerberoasting exposure does not imply secure identity posture.
+- Attack path modelling is an iterative intelligence process.
+
+---
