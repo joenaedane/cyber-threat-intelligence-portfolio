@@ -4,7 +4,7 @@
 This incident assessment is derived from behavioural observations recorded during a simulated identity attack path analysis exercise conducted within a controlled Active Directory lab environment.
 
 Technical Simulation Reference:
-lab-environment/identity-attacks/attack-path-analysis-bloodhound.md
+`lab-environment/identity-attacks/attack-path-analysis-bloodhound.md`
 
 ## Incident Summary
 Identity graph enumeration activity was observed indicating potential attacker efforts to identify privilege escalation opportunities within the Active Directory environment.
