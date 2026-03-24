@@ -1,7 +1,7 @@
 # Incident Report - Identity-Driven Intrusion Reconstruction Based on Ryuk Ransomware Tradecraft
 
 ## Author's Notes
-This case study is reconstructing a simulated intrusion inspired by the attack patterns associated with Ryuk Ransom Attacks. 
+This case study is reconstructing a simulated intrusion inspired by the attack patterns associated with Ryuk Ransom Attacks. This case study aims to provide current threat actors' possible attack vectors.
 
 Ryuk campaigns typically begin with phishing emails carrying the Emotet or TrickBot trojans. Once inside a network, attackers move laterally, harvest credentials, and disable backups before deploying Ryuk. The ransomware encrypts files using robust algorithms (AES and RSA), appending “.ryk” or similar extensions and dropping ransom notes demanding cryptocurrency payments.
 

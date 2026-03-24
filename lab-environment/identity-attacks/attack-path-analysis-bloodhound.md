@@ -1,4 +1,4 @@
-# # Active Directory Identity Attack Path Lab (BloodHound + Kerberos Delegation)
+# # Active Directory Identity Attack Path Lab (BloodHound)
 
 ## Lab Objective
 
