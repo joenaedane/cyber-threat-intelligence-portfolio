@@ -93,9 +93,10 @@ Attacker should then pivot into logging in as the identity.
 
 ## Step 6 — Credential Dump Behaviour Simulation
 
-After obtaining a high-integrity administrative token, the attacker performs credential harvesting by interacting with LSASS memory
+After obtaining a high-integrity administrative token, the attacker performs credential harvesting by interacting with LSASS memory via task manager (online attack) and mimikatz (by data exfliration and offline parsing).
 
 ![alt text](../assets/credential-dump/image-10.png)
+![alt text](../assets/credential-dump/image-14.png)
 
 ## Step 7 — SOC Analyst Investigation
 
@@ -147,6 +148,7 @@ Screenshot was given in Step 6.
 
 ## Lab Conclusion
 
-The attacker successfully established a credential harvesting pivot on the compromised workstation.
+The attacker successfully established a credential harvesting pivot on the compromised workstation. The attacker also can utilise an offline parsing of the LSASS dump to increase attacker dwell time and removing unnecessary footprint in the infrastructure. 
 
 This creates elevated risk of lateral movement and domain privilege escalation in subsequent intrusion phases.
+
