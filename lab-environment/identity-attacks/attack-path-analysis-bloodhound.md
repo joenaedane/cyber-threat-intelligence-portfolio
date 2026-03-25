@@ -55,11 +55,11 @@ KALI   → 192.168.56.30  (Attacker Machine)
 
 ### Screenshots
 
-* ![alt text](./assets/identity-attack/image-1.png)
-* ![alt text](./assets/identity-attack/image-2.png)
-* ![alt text](./assets/identity-attack/image-4.png)
-* ![alt text](./assets/identity-attack/image-5.png)
-* ![alt text](./assets/identity-attack/image-6.png)
+* ![alt text](../assets/identity-attack/image-1.png)
+* ![alt text](../assets/identity-attack/image-2.png)
+* ![alt text](../assets/identity-attack/image-4.png)
+* ![alt text](../assets/identity-attack/image-5.png)
+* ![alt text](../assets/identity-attack/image-6.png)
 
 ### Key Learning
 Active Directory acts as centralized identity authority storing password hashes and Kerberos keys.
@@ -96,7 +96,7 @@ nltest /dsgetdc:corp.local
 * Kerberos TGT issuance patterns
 
 ### Screenshots
-* ![alt text](./assets/identity-attack/image-7.png)
+* ![alt text](../assets/identity-attack/image-7.png)
 
 ---
 
@@ -120,13 +120,13 @@ Import data into BloodHound and identify shortest path to Domain Admin.
 
 ### Screenshot Evidence
 
-* ![alt text](./assets/identity-attack/image-8.png)
+* ![alt text](../assets/identity-attack/image-8.png)
 
-* ![alt text](./assets/identity-attack/image-9.png)
+* ![alt text](../assets/identity-attack/image-9.png)
 
-* ![alt text](./assets/identity-attack/image-10.png)
+* ![alt text](../assets/identity-attack/image-10.png)
 
-* ![alt text](./assets/identity-attack/image-11.png)
+* ![alt text](../assets/identity-attack/image-11.png)
 
 ### Key Learning
 
@@ -140,7 +140,7 @@ Import data into BloodHound and identify shortest path to Domain Admin.
 To simulate realistic enterprise misconfiguration, the compromised user account was granted **local administrative privileges** on workstation WS01.
 
 Validation on host confirmed:
-* ![alt text](./assets/identity-attack/image-12.png)
+* ![alt text](./.assets/identity-attack/image-12.png)
 
 
 This introduced a deterministic escalation surface enabling:
@@ -156,7 +156,7 @@ This introduced a deterministic escalation surface enabling:
 
 Despite confirmed host-level privilege exposure, BloodHound graph ingestion did not display a corresponding `AdminTo` edge.
 
-* ![alt text](./assets/identity-attack/image-13.png)
+* ![alt text](../assets/identity-attack/image-13.png)
 
 This highlights a critical operational insight:
 
