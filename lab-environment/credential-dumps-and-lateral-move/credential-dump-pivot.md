@@ -125,8 +125,8 @@ Endpoint telemetry was examined for evidence of LSASS interaction and suspicious
 
 The analyst reconstructed attacker activity by correlating authentication events, privilege escalation behaviour and endpoint telemetry.
 
-24/3/2026 8:45:27pm --> Attacker logged on as helpdesk_admin
-24/3/2026 8:45:36pm --> Process was created and lsass.exe was being used
+- 24/3/2026 8:45:27pm --> Attacker logged on as helpdesk_admin
+- 24/3/2026 8:45:36pm --> Process was created and lsass.exe was being used
 
 ![alt text](../assets/credential-dump/image-13.png)
 
