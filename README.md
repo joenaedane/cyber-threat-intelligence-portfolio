@@ -51,13 +51,7 @@ Each campaign phase demonstrates how individual alerts or technical findings can
 
 ## Lab Environment
 
-All research and simulations are conducted within a personal enterprise-style cybersecurity lab environment consisting of:
-
-* Windows Active Directory domain infrastructure
-* Simulated attacker workstation (Kali Linux)
-* Endpoint telemetry collection and log analysis tooling
-* Network segmentation and identity trust modelling
-* Attack graph analysis tooling (e.g. BloodHound)
+All research and simulations are conducted within a personal enterprise-style cybersecurity lab environment.
 
 This controlled environment enables safe replication of realistic intrusion scenarios and validation of detection strategies.
 
