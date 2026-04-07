@@ -89,7 +89,7 @@ Attacker adding a new group that looks legitimate to prevvent further attention.
 ### Log into DC01 using:
 
 corp\svc_backup  
-Password: P@ssw0rd!
+Password: P@ssw0rd@
 
 ---
 
@@ -134,6 +134,7 @@ schtasks /create /sc minute /mo 5 /tn "WindowsUpdate" /tr "powershell -c Invoke-
 
 - Continuous outbound traffic  
 - Create a task that pings to attacker every 5 minutes
+- Next lab will be expanding on the beaconing portion
 
 ![alt text](../assets/persistence/image-3.png)
 
