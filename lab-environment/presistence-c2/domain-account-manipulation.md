@@ -89,7 +89,7 @@ Attacker adding a new group that looks legitimate to prevvent further attention.
 ### Log into DC01 using:
 
 corp\svc_backup  
-Password: P@ssw0rd@
+Password: Password123@
 
 ---
 
